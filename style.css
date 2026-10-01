@@ -1,0 +1,1156 @@
+/* ================================================================
+   СВАДЕБНОЕ ПРИГЛАШЕНИЕ — ТАБЛИЦА СТИЛЕЙ (css/style.css)
+
+   СОДЕРЖАНИЕ ФАЙЛА (ищите блоки по номерам):
+     1.  Переменные — цвета и шрифты всего сайта (менять тут)
+     2.  Базовые стили — сброс, фон страницы, типографика
+     3.  Контейнер — центрирование контента на всех экранах
+     4.  Кнопки — золотая («solid») и контурная («ghost»)
+     5.  Декоративный разделитель между блоками
+     6.  Секции — общие отступы и заголовки разделов
+     7.  Шапка сайта — фиксированное меню сверху
+     8.  Главный экран (hero) — имена, дата, фон, ветки, лепестки
+     9.  Дата и время + обратный отсчёт
+     10. Дресс-код — сетка из 6 цветовых образцов
+     11. Программа дня — вертикальный таймлайн
+     12. Место проведения — карточка площадки
+     13. «Важно знать» — сетка информационных карточек
+     14. Анкета RSVP — стили формы
+     15. Подвал (футер)
+     16. Анимации появления при прокрутке (класс .reveal)
+     17. Доступность — отключение анимаций по настройкам системы
+     18. Адаптивность — медиазапросы для планшетов и телефонов
+================================================================ */
+
+
+/* ----------------------------------------------------------------
+   1. ПЕРЕМЕННЫЕ
+   Основные цвета и шрифты сайта. Чтобы перекрасить весь сайт —
+   меняйте значения только в этом блоке.
+---------------------------------------------------------------- */
+:root {
+  --color-bg: #FBF7F0;            /* основной фон страницы — тёплый молочный */
+  --color-bg-tint: #F3ECDE;       /* фон чередующихся секций — чуть темнее */
+  --color-card: #FFFFFF;          /* фон карточек */
+  --color-text: #453E36;          /* основной цвет текста — тёмный шоколад */
+  --color-text-soft: #8B8072;     /* второстепенный, приглушённый текст */
+  --color-accent: #B49B6E;        /* акцент — приглушённое золото (кнопки, линии) */
+  --color-accent-strong: #997F52; /* золото темнее — текст акцентов, наведение */
+  --color-accent-soft: rgba(180, 155, 110, .14); /* очень светлый золотой фон */
+  --color-line: rgba(180, 155, 110, .35);        /* цвет тонких линий/рамок */
+  --color-field-border: #E4DACA;  /* рамка полей ввода в форме */
+
+  --shadow-card: 0 12px 32px rgba(69, 62, 54, .10); /* мягкая тень карточек */
+
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif; /* заголовки */
+  --font-script: 'Marck Script', 'Segoe Script', cursive;              /* рукописные акценты */
+  --font-sans: 'Montserrat', 'Segoe UI', Arial, sans-serif;            /* основной текст */
+
+  --radius-card: 18px;   /* скругление карточек */
+  --radius-field: 12px;  /* скругление полей формы */
+  --header-h: 64px;      /* высота фиксированной шапки */
+}
+
+
+/* ----------------------------------------------------------------
+   2. БАЗОВЫЕ СТИЛИ
+   Сброс отступов, плавная прокрутка по ссылкам меню,
+   базовый вид текста и ссылок на всей странице.
+---------------------------------------------------------------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Плавная прокрутка при клике по пунктам меню.
+   scroll-padding-top не даёт фиксированной шапке перекрывать заголовок. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--color-text);
+  background: var(--color-bg);
+  overflow-x: hidden;            /* обрезаем декор, вылезающий за экран */
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--color-accent-strong); }
+
+img { max-width: 100%; display: block; }
+
+::selection { background: var(--color-accent); color: #fff; }
+
+
+/* ----------------------------------------------------------------
+   3. КОНТЕЙНЕР
+   Центрирует содержимое секций, ограничивает ширину текста.
+---------------------------------------------------------------- */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+
+/* ----------------------------------------------------------------
+   4. КНОПКИ
+   .btn--solid — залитая золотая кнопка (главное действие)
+   .btn--ghost — контурная кнопка (второстепенное действие)
+   .btn-row    — ряд кнопок с центрированием
+---------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 32px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease,
+              border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+}
+
+.btn:hover { transform: translateY(-3px); }
+
+.btn--solid {
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(180, 155, 110, .35);
+}
+.btn--solid:hover { background: var(--color-accent-strong); }
+
+.btn--ghost {
+  border-color: var(--color-accent);
+  color: var(--color-accent-strong);
+  background: transparent;
+}
+.btn--ghost:hover { background: var(--color-accent-soft); }
+
+/* Видимый фокус с клавиатуры (доступность) */
+.btn:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 3px;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+
+/* ----------------------------------------------------------------
+   5. ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ
+   Маленькая витиеватая линия (SVG) под заголовками секций.
+---------------------------------------------------------------- */
+.divider {
+  display: block;
+  width: 200px;
+  margin: 0 auto;
+  color: var(--color-accent);
+  opacity: .9;
+}
+
+
+/* ----------------------------------------------------------------
+   6. СЕКЦИИ
+   Вертитикальные блоки страницы. .section--tint — секция с
+   чуть более тёмным фоном (чередование полос на странице).
+   .section__eyebrow — рукописная надпись над заголовком.
+   .section__title   — крупный заголовок секции.
+   .section__lead    — вводный абзац под заголовком.
+---------------------------------------------------------------- */
+.section {
+  padding: 92px 0;
+  position: relative;
+}
+
+.section--tint { background: var(--color-bg-tint); }
+
+.section__header {
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto 52px;
+}
+
+.section__eyebrow {
+  display: block;
+  font-family: var(--font-script);
+  font-size: clamp(26px, 3.4vw, 34px);
+  color: var(--color-accent-strong);
+  margin-bottom: 4px;
+}
+
+.section__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(30px, 4.6vw, 42px);
+  line-height: 1.25;
+}
+
+.section__lead {
+  margin-top: 16px;
+  color: var(--color-text-soft);
+  font-size: 16px;
+}
+
+
+/* ----------------------------------------------------------------
+   7. ШАПКА САЙТА
+   Фиксирована сверху. Прозрачная поверх hero, при прокрутке
+   вниз (.header--scrolled — класс добавляет скрипт) получает
+   светлый полупрозрачный фон с размытием и тень.
+---------------------------------------------------------------- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  transition: background-color .35s ease, box-shadow .35s ease;
+}
+
+.header--scrolled {
+  background: rgba(251, 247, 240, .88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(69, 62, 54, .08);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+}
+
+/* Логотип — рукописные инициалы пары */
+.header__logo {
+  font-family: var(--font-script);
+  font-size: 28px;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Меню: на узких экранах прокручивается горизонтально */
+.header__nav {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  min-width: 0;
+  flex: 1;
+  justify-content: flex-end;
+  scrollbar-width: none;
+}
+.header__nav::-webkit-scrollbar { display: none; }
+
+.nav__link {
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: .03em;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color .25s ease, color .25s ease;
+}
+
+.nav__link:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+
+/* ----------------------------------------------------------------
+   8. ГЛАВНЫЙ ЭКРАН (HERO)
+   Полноэкранная первая секция. Состоит из:
+   - цветных пятен фона (.blob) — мягкое размытое сияние;
+   - угловых ветвей (.flourish-wrap) — двигаются с параллаксом;
+   - контента (.hero__inner) — имена, дата, место, стрелка вниз;
+   - падающих лепестков (.petal) — создаёт скрипт.
+---------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 100vh;   /* запас для старых браузеров */
+  min-height: 100svh;  /* высота экрана без панелей браузера */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: calc(var(--header-h) + 40px) 20px 90px;
+}
+
+/* --- Цветные пятна фона: размытые круги, медленно «дышат» --- */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .55;
+  pointer-events: none;
+  animation: blob-float 16s ease-in-out infinite alternate;
+}
+
+.blob--rose     { width: 520px; height: 520px; background: #E9C6C4; top: -160px;    left: -140px; }
+.blob--sage     { width: 460px; height: 460px; background: #C3CFB4; top: -120px;    right: -120px; animation-delay: -4s; }
+.blob--lavender { width: 480px; height: 480px; background: #CFC0DC; bottom: -180px; left: -100px;  animation-delay: -8s; }
+.blob--champagne{ width: 560px; height: 560px; background: #EFE3C2; bottom: -200px; right: -160px; animation-delay: -12s; }
+/* центральное пятно: позиция через left/top, чтобы не мешать анимации transform */
+.blob--blue     { width: 380px; height: 380px; background: #C4D4E0; top: 38%; left: calc(50% - 190px); opacity: .35; animation-delay: -6s; }
+
+/* Медленное покачивание пятен */
+@keyframes blob-float {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(46px) scale(1.07); }
+}
+
+/* --- Угловые ветви-украшения --- */
+/* Обёртка позиционируется в углу, скрипт параллакса двигает её
+   при прокрутке (transform на обёртке, поворот — на самом SVG) */
+.flourish-wrap {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  width: clamp(170px, 24vw, 320px);
+}
+
+.flourish-wrap--tl { top: 74px;    left: -40px; }
+.flourish-wrap--tr { top: 74px;    right: -40px; }
+.flourish-wrap--bl { bottom: 40px; left: -40px; }
+.flourish-wrap--br { bottom: 40px; right: -40px; }
+
+.flourish {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--color-accent);
+  opacity: .5;
+}
+
+/* Повороты/отражения ветвей для каждого угла */
+.flourish-wrap--tr .flourish { transform: scaleX(-1) rotate(-6deg); }
+.flourish-wrap--bl .flourish { transform: scaleY(-1) rotate(-4deg); }
+.flourish-wrap--br .flourish { transform: scale(-1, -1) rotate(-6deg); }
+
+/* --- Падающие лепестки (создаются скриптом js/script.js) --- */
+.hero__petals {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  top: -6vh;
+  border-radius: 70% 5% 70% 5%;   /* форма лепестка */
+  opacity: 0;
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* Падение с покачиванием. --drift — горизонтальный сдвиг, задаёт скрипт */
+@keyframes petal-fall {
+  0%   { transform: translate3d(0, -8vh, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: .9; }
+  85%  { opacity: .9; }
+  100% { transform: translate3d(var(--drift, 60px), 108vh, 0) rotate(340deg); opacity: 0; }
+}
+
+/* --- Центральный контент hero --- */
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+}
+
+/* Появление содержимого hero при загрузке страницы (по очереди) */
+.hero__inner > * { animation: hero-in .9s cubic-bezier(.22,.61,.36,1) both; }
+.hero__inner > *:nth-child(1) { animation-delay: .15s; }
+.hero__inner > *:nth-child(2) { animation-delay: .30s; }
+.hero__inner > *:nth-child(3) { animation-delay: .45s; }
+.hero__inner > *:nth-child(4) { animation-delay: .60s; }
+.hero__inner > *:nth-child(5) { animation-delay: .75s; }
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Рукописная надпись «Мы женимся!» */
+.hero__eyebrow {
+  font-family: var(--font-script);
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--color-accent-strong);
+}
+
+/* Имена пары: крупные, с амперсандом-разделителем */
+.hero__names {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 26px;
+  margin: 14px 0 6px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(46px, 9vw, 96px);
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.hero__names .amp {
+  font-size: .45em;
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+/* Дата с тонкими линиями по бокам */
+.hero__date {
+  margin-top: 30px;
+  font-family: var(--font-serif);
+  font-size: clamp(19px, 3vw, 27px);
+  letter-spacing: .42em;
+  padding-left: .42em;   /* компенсация последнего символа */
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+
+.hero__date::before,
+.hero__date::after {
+  content: '';
+  height: 1px;
+  width: clamp(30px, 8vw, 84px);
+  background: var(--color-line);
+}
+
+/* Короткое место проведения */
+.hero__place {
+  margin-top: 12px;
+  color: var(--color-text-soft);
+  font-size: 15px;
+  letter-spacing: .06em;
+}
+
+/* Стрелка «листайте вниз» с пружинящей анимацией */
+.hero__scroll {
+  margin-top: 56px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-soft);
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.hero__scroll svg { animation: arrow-bounce 2s ease-in-out infinite; }
+
+@keyframes arrow-bounce {
+  0%, 100% { transform: translateY(0);    opacity: .7; }
+  50%      { transform: translateY(10px); opacity: 1; }
+}
+
+
+/* ----------------------------------------------------------------
+   9. ДАТА И ВРЕМЯ + ОБРАТНЫЙ ОТСЧЁТ
+   Белая карточка с датой и четырьмя ячейками таймера.
+   Цифры обновляет скрипт (js/script.js, initCountdown).
+---------------------------------------------------------------- */
+.date-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: clamp(28px, 6vw, 48px);
+  text-align: center;
+}
+
+.date__main {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 4.4vw, 38px);
+  font-weight: 500;
+}
+
+.date__time {
+  margin-top: 10px;
+  color: var(--color-accent-strong);
+  letter-spacing: .05em;
+  font-size: 16px;
+}
+
+/* Сетка ячеек таймера: 4 в ряд, на телефоне 2×2 (см. блок 18) */
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 34px 0 6px;
+}
+
+.countdown__box {
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  padding: 18px 8px 14px;
+}
+
+.countdown__num {
+  font-family: var(--font-serif);
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;  /* одинаковая ширина цифр */
+}
+
+.countdown__label {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+
+/* Сообщение, которое скрипт показывает после наступления даты */
+.countdown__done {
+  font-family: var(--font-script);
+  font-size: 26px;
+  color: var(--color-accent-strong);
+}
+
+.date__hint {
+  margin-top: 8px;
+  font-size: 13.5px;
+  color: var(--color-text-soft);
+}
+
+
+/* ----------------------------------------------------------------
+   10. ДРЕСС-КОД — ПАЛИТРА ИЗ 6 ОТТЕНКОВ
+   Круглый образец цвета + название + HEX-код под ним.
+   Сами цвета задаются в index.html (style="background: ...").
+---------------------------------------------------------------- */
+.palette {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 34px 14px;
+}
+
+.swatch { text-align: center; }
+
+.swatch__color {
+  width: clamp(62px, 8.5vw, 100px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  margin: 0 auto;
+  border: 7px solid #fff;
+  box-shadow: 0 0 0 1px var(--color-line), var(--shadow-card);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+/* Образец приподнимается при наведении курсора */
+.swatch:hover .swatch__color {
+  transform: translateY(-8px) scale(1.06);
+  box-shadow: 0 0 0 1px var(--color-line), 0 18px 36px rgba(69, 62, 54, .18);
+}
+
+.swatch__name {
+  margin-top: 14px;
+  font-family: var(--font-serif);
+  font-size: 17px;
+}
+
+.swatch__hex {
+  margin-top: 2px;
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--color-text-soft);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.dress-note {
+  margin: 40px auto 0;
+  max-width: 600px;
+  text-align: center;
+  color: var(--color-text-soft);
+  font-size: 15px;
+}
+
+.dress-note strong { color: var(--color-text); }
+
+
+/* ----------------------------------------------------------------
+   11. ПРОГРАММА ДНЯ — ТАЙМЛАЙН
+   Вертикальная золотая линия (::before у .timeline), на ней —
+   круглые значки с временем (.timeline__time) и карточки
+   событий (.timeline__card) справа.
+---------------------------------------------------------------- */
+.timeline {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  list-style: none;
+}
+
+/* Непрерывная вертикальная линия позади кружков со временем.
+   left = половина ширины кружка (96px) минус толщина линии */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 44px;
+  bottom: 44px;
+  left: 47px;
+  width: 2px;
+  background: linear-gradient(180deg,
+    transparent,
+    var(--color-line) 10%,
+    var(--color-line) 90%,
+    transparent);
+}
+
+.timeline__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.timeline__item + .timeline__item { margin-top: 30px; }
+
+/* Кружок с временем: белая заливка перекрывает линию */
+.timeline__time {
+  flex: 0 0 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 19px;
+  position: relative;
+  z-index: 1;   /* кружок выше линии */
+}
+
+/* Карточка события */
+.timeline__card {
+  flex: 1;
+  background: var(--color-card);
+  border: 1px solid rgba(180, 155, 110, .18);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 24px 28px;
+}
+
+.timeline__title {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.timeline__desc {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--color-text-soft);
+}
+
+
+/* ----------------------------------------------------------------
+   12. МЕСТО ПРОВЕДЕНИЯ
+   Двухколоночная карточка: слева информация, справа —
+   декоративная панель (можно заменить на фото площадки).
+---------------------------------------------------------------- */
+.place-card {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  background: var(--color-card);
+  border: 1px solid rgba(180, 155, 110, .18);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.place__info { padding: clamp(26px, 5vw, 46px); }
+
+.place__name {
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 500;
+}
+
+/* Строки «иконка + текст» (адрес, сбор гостей) */
+.place__rows {
+  margin-top: 22px;
+  display: grid;
+  gap: 16px;
+}
+
+.place-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: var(--color-text-soft);
+}
+
+.place-row strong {
+  display: block;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+
+/* Круглая подложка под иконку */
+.place-row__icon {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Блок «Как добраться» */
+.place__subtitle {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 500;
+  margin: 26px 0 12px;
+}
+
+.place__list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  font-size: 14.5px;
+  color: var(--color-text-soft);
+}
+
+.place__list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.place__list svg {
+  flex: 0 0 20px;
+  margin-top: 4px;
+  color: var(--color-accent-strong);
+}
+
+.place__list strong { color: var(--color-text); }
+
+.place__btn-row { margin-top: 28px; }
+
+/* Декоративная панель справа: градиент + рукописное название.
+   Чтобы вставить сюда фото — см. комментарий в index.html */
+.place__visual {
+  position: relative;
+  min-height: 340px;
+  background: linear-gradient(135deg, #EFE3C2 0%, #E9C6C4 55%, #CFC0DC 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.place__visual-text {
+  font-family: var(--font-script);
+  font-size: clamp(30px, 4vw, 44px);
+  color: #fff;
+  text-shadow: 0 2px 18px rgba(69, 62, 54, .25);
+  z-index: 1;
+}
+
+.place__visual-branch {
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 55%;
+  color: #fff;
+  opacity: .3;
+}
+
+/* Стиль для встроенной карты (если добавите iframe, см. index.html) */
+.place__map { margin-top: 26px; border-radius: var(--radius-card); overflow: hidden; }
+.place__map iframe { display: block; width: 100%; height: 320px; border: 0; }
+
+
+/* ----------------------------------------------------------------
+   13. «ВАЖНО ЗНАТЬ» — ИНФОРМАЦИОННЫЕ КАРТОЧКИ
+   Сетка 2×2: подарки, цветы, дети, контакты.
+---------------------------------------------------------------- */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.detail-card {
+  background: var(--color-card);
+  border: 1px solid rgba(180, 155, 110, .18);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 32px 28px;
+  text-align: center;
+}
+
+/* Круглая иконка сверху карточки */
+.detail-card__icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .3s ease;
+}
+
+/* Иконка слегка «оживает» при наведении на карточку */
+.detail-card:hover .detail-card__icon { transform: scale(1.1) rotate(-6deg); }
+
+.detail-card__title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.detail-card__text {
+  font-size: 15px;
+  color: var(--color-text-soft);
+}
+
+.detail-card__text a { text-decoration: underline; }
+
+
+/* ----------------------------------------------------------------
+   14. АНКЕТА RSVP — ФОРМА
+   Поля ввода, переключатели-«пилюли», кнопка отправки,
+   блок статуса отправки (заполняет скрипт).
+---------------------------------------------------------------- */
+.rsvp-form {
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--color-card);
+  border: 1px solid rgba(180, 155, 110, .18);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: clamp(24px, 5vw, 44px);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* Поле на всю ширину формы (переключатели, textarea, кнопка) */
+.form-field--full { grid-column: 1 / -1; }
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+
+/* Общий вид полей ввода */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--color-field-border);
+  border-radius: var(--radius-field);
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--color-text);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+/* Подсветка активного поля */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+/* Переключатели «приду / не смогу» в виде пилюль */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.radio-pill { position: relative; display: inline-flex; }
+
+.radio-pill input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio-pill span {
+  display: inline-flex;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--color-field-border);
+  background: var(--color-bg);
+  font-size: 14px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+
+.radio-pill input:checked + span {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.radio-pill input:focus-visible + span {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
+}
+
+.rsvp-form__submit {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* Блок статуса отправки (скрипт показывает/прячет его) */
+.rsvp-form__status {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-soft);
+  display: none;
+}
+
+.rsvp-form__status--shown { display: block; }
+.rsvp-form__status.is-error { color: #B0492F; }
+.rsvp-form__status a { text-decoration: underline; }
+
+/* Срок подтверждения под формой */
+.rsvp-deadline {
+  text-align: center;
+  margin-top: 26px;
+  font-size: 14px;
+  color: var(--color-text-soft);
+}
+
+.rsvp-deadline strong { color: var(--color-accent-strong); }
+
+
+/* ----------------------------------------------------------------
+   15. ПОДВАЛ (ФУТЕР)
+   Финальная надпись, имена, хэштег и краткие данные.
+---------------------------------------------------------------- */
+.footer {
+  background: var(--color-bg-tint);
+  padding: 80px 20px 36px;
+  text-align: center;
+  border-top: 1px solid var(--color-line);
+}
+
+.footer__script {
+  font-family: var(--font-script);
+  font-size: clamp(36px, 6vw, 56px);
+  color: var(--color-accent-strong);
+}
+
+.footer__names {
+  margin-top: 10px;
+  font-family: var(--font-serif);
+  font-size: 20px;
+}
+
+.footer__hashtag {
+  margin-top: 18px;
+  font-size: 13px;
+  letter-spacing: .14em;
+  color: var(--color-text-soft);
+}
+
+.footer__meta {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.footer__tiny {
+  margin-top: 28px;
+  font-size: 11.5px;
+  color: #B4A897;
+}
+
+
+/* ----------------------------------------------------------------
+   16. АНИМАЦИИ ПОЯВЛЕНИЯ ПРИ ПРОКРУТКЕ
+   Логика: элементам в HTML добавлен класс .reveal. Пока элемент
+   не докрутили до экрана — он невидим и сдвинут. Скрипт
+   (js/script.js, initRevealOnScroll) добавляет класс
+   .reveal--visible, и элемент плавно «въезжает».
+   Модификаторы направления: .reveal--left (слева),
+   .reveal--right (справа), .reveal--zoom (масштаб).
+   .stagger — пошаговое появление дочерних элементов по очереди.
+---------------------------------------------------------------- */
+
+/* Присвоение html класса "js" (см. <head> в index.html) страхует:
+   если JavaScript выключен, содержимое видно без анимаций */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .8s ease var(--d, 0s),
+              transform .8s cubic-bezier(.22, .61, .36, 1) var(--d, 0s);
+  will-change: opacity, transform;
+}
+
+html.js .reveal--left  { transform: translateX(-40px); }
+html.js .reveal--right { transform: translateX(40px); }
+html.js .reveal--zoom  { transform: scale(.94); }
+
+html.js .reveal--visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Задержки пошагового появления: дети блока .stagger
+   появляются один за другим с шагом 90 мс */
+html.js .stagger > .reveal:nth-child(1) { --d: 0s;    }
+html.js .stagger > .reveal:nth-child(2) { --d: .09s;  }
+html.js .stagger > .reveal:nth-child(3) { --d: .18s;  }
+html.js .stagger > .reveal:nth-child(4) { --d: .27s;  }
+html.js .stagger > .reveal:nth-child(5) { --d: .36s;  }
+html.js .stagger > .reveal:nth-child(6) { --d: .45s;  }
+html.js .stagger > .reveal:nth-child(7) { --d: .54s;  }
+html.js .stagger > .reveal:nth-child(8) { --d: .63s;  }
+
+
+/* ----------------------------------------------------------------
+   17. ДОСТУПНОСТЬ
+   Если у гостя в системе включено «уменьшить движение» —
+   отключаем все анимации, контент показывается сразу.
+---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  html.js .reveal { opacity: 1; transform: none; }
+  .petal { display: none; }
+}
+
+
+/* ----------------------------------------------------------------
+   18. АДАПТИВНОСТЬ
+   960px — планшеты: палитра 3 в ряд, карточка места в одну колонку
+   700px — телефоны: карточки и форма в одну колонку, компактный
+           таймлайн, счётчик 2×2
+   460px — маленькие телефоны: палитра 2 в ряд, кнопки на всю ширину
+---------------------------------------------------------------- */
+
+/* --- Планшеты --- */
+@media (max-width: 960px) {
+  .palette { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .place-card { grid-template-columns: 1fr; }
+
+  /* Декоративная панель поднимается наверх и становится ниже */
+  .place__visual { order: -1; min-height: 230px; }
+}
+
+/* --- Телефоны --- */
+@media (max-width: 700px) {
+  .section { padding: 72px 0; }
+
+  .header__logo { font-size: 24px; }
+  .nav__link { padding: 8px 10px; font-size: 12.5px; }
+
+  .details-grid { grid-template-columns: 1fr; }
+
+  .form-grid { grid-template-columns: 1fr; }
+
+  /* Счётчик 2×2 */
+  .countdown {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Компактный таймлайн: кружки 72px, линия сдвигается к левому краю */
+  .timeline::before { left: 35px; }
+
+  .timeline__item { gap: 16px; }
+  .timeline__item + .timeline__item { margin-top: 24px; }
+  .timeline__time { flex-basis: 72px; height: 72px; font-size: 16px; }
+  .timeline__card { padding: 18px; }
+}
+
+/* --- Маленькие телефоны --- */
+@media (max-width: 460px) {
+  .palette { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 10px; }
+
+  .hero__names { gap: 2px 18px; }
+
+  /* Дата без больших боковых линий и с меньшим разрежением букв */
+  .hero__date { letter-spacing: .22em; padding-left: .22em; gap: 14px; font-size: 17px; }
+
+  /* Кнопки в один столбик на всю ширину */
+  .btn-row { flex-direction: column; align-items: stretch; }
+  .btn { width: 100%; }
+}
